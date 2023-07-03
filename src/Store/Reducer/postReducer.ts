@@ -1,10 +1,11 @@
-import { error } from "console";
+import { createSlice } from "@reduxjs/toolkit";
 
-enum PostsActionType {
+export enum PostsActionType {
   FETCH_POSTS = "FETCH_POSTS",
   FETCH_POSTS_SUCCESS = "FETCH_POSTS_SUCCESS",
   FETCH_POSTS_ERROR = "FETCH_POSTS_ERROR",
 }
+
 const initialState = {
   posts: [],
   loading: false,
@@ -32,21 +33,31 @@ interface IActionTypeError {
   type: PostsActionType.FETCH_POSTS_ERROR;
   payload: string;
 }
-type ActionType = {
-  type: IActionType | IActionTypeSucces | IActionTypeError;
-};
-export const postReducer = (
-  state = initialState,
-  action: ActionType
-): IPostState => {
-  switch (action.type) {
-    case PostsActionType.FETCH_POSTS:
-      return { loading: true, error: null, posts: [] };
-    case PostsActionType.FETCH_POSTS_SUCCESS:
-      return { loading: false, error: null, posts:action.};
-    case PostsActionType.FETCH_POSTS_ERROR:
-      return {loading:false, error, posts:[]};
-    default:
-      return state;
-  }
-};
+export type ActionType = IActionType | IActionTypeSucces | IActionTypeError;
+
+export const postReducer = createSlice({
+  name: "postReducer",
+  initialState: initialState as IPostState,
+  reducers: {
+    FETCH_POSTS: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.posts = [];
+    },
+    FETCH_POSTS_SUCCESS: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.posts = action.payload;
+    },
+    FETCH_POSTS_ERROR: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.posts = [];
+    },
+  },
+});
+
+export const { FETCH_POSTS, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR } =
+  postReducer.actions;
+
+export default postReducer.reducer;
