@@ -7,7 +7,14 @@ export enum PostsActionType {
 }
 
 const initialState = {
-  posts: [],
+  posts: [
+    {
+      title: "fdf",
+      id: 1,
+      userId: 1,
+      body: "fdf",
+    },
+  ],
   loading: false,
   error: null,
 };

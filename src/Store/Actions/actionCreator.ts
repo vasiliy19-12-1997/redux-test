@@ -1,5 +1,9 @@
 import { Dispatch } from "redux";
-import { ActionType, PostsActionType } from "../Reducer/postReducer";
+import {
+  ActionType,
+  FETCH_POSTS_SUCCESS,
+  PostsActionType,
+} from "../Reducer/postReducer";
 import axios from "axios";
 
 export const fetchPosts = () => {
